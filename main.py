@@ -63,4 +63,4 @@ except KeyboardInterrupt:
     print('Finished recording.')
     # DeepSpeech
     text = model.finishStream(context)
-    print('Final text = {}'.format(text))
+    print('Final text = {}'.format(text)) 
