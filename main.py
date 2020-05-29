@@ -4,18 +4,9 @@ import os
 import pyaudio
 import time
 
-# DeepSpeech parameters
-DEEPSPEECH_MODEL_DIR = 'deepspeech-0.6.0-models'
-MODEL_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'output_graph.pbmm')
-BEAM_WIDTH = 500
-LM_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'lm.binary')
-TRIE_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'trie')
-LM_ALPHA = 0.75
-LM_BETA = 1.85
+import SpeechModel 
 
-# Make DeepSpeech Model
-model = deepspeech.Model(MODEL_FILE_PATH, BEAM_WIDTH)
-model.enableDecoderWithLM(LM_FILE_PATH, TRIE_FILE_PATH, LM_ALPHA, LM_BETA)
+model = new SpeechModel()
 
 # Create a Streaming session
 context = model.createStream()
@@ -33,7 +24,7 @@ def process_audio(in_data, frame_count, time_info, status):
     return (in_data, pyaudio.paContinue)
 
 # PyAudio parameters
-FORMAT = pyaudio.paInt16
+FORMAT = pyaudio.paInt16    
 CHANNELS = 1
 RATE = 16000
 CHUNK_SIZE = 1024
