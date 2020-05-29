@@ -16,6 +16,6 @@ class SpeechModel:
         self.model.enableDecoderWithLM(LM_FILE_PATH, TRIE_FILE_PATH, LM_ALPHA, LM_BETA)
     
     def getText(self,data16):
-        text = model.stt(data16)
+        text = self.model.stt(data16)
         return text
 
