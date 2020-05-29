@@ -1,4 +1,4 @@
-import SpeechModel 
+from SpeechModel import SpeechModel
 import librosa
 
 SAMPLE_RATE = 16000
