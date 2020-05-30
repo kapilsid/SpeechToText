@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request,jsonify
 from flask_cors import CORS
 from datetime import datetime
-from SpeechModel import SpeechModel
+from app.SpeechModel import SpeechModel
 import logging
 from app import app,logger
 import numpy as np
