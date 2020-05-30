@@ -7,6 +7,8 @@ import numpy as np
 
 from flask import render_template
 
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 @app.route("/listen",methods=["POST"])
 def listen():
     """Entry point of this service. 
