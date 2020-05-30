@@ -1,5 +1,4 @@
 from flask import request,jsonify
-from flask_cors import CORS
 from datetime import datetime
 from app.SpeechModel import SpeechModel
 import logging
@@ -8,7 +7,7 @@ import numpy as np
 
 from flask import render_template
 
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 @app.route("/listen",methods=["POST"])
 def listen():
