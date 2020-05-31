@@ -19,9 +19,9 @@ def listen():
     
     data = request.data
     wav, sr = sf.read(io.BytesIO(data))
-    wav = librosa.core.resample(wav,sr16000)
+    wav = librosa.core.resample(wav,sr,16000)
     print(wav)
-    print(samplerate)
+    print(sr)
     model = SpeechModel()
     data16 = np.frombuffer(wav, dtype=np.int16)
 
