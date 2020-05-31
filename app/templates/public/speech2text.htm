@@ -26,6 +26,7 @@
         <textarea row="5" cols="100">
 
         </textarea>
+        <div id="recording"></div>
         <div id="formats"></div>
         <div id="log"></div>
 
@@ -47,6 +48,8 @@
             var audioContext; //new audio context to help us record
             
             const recordButton = document.getElementById('start');
+ 
+            var  recordings = document.getElementById('recording');
  
             recordButton.addEventListener('click', function() {
                 if(started) {
@@ -175,7 +178,7 @@
                 //add the new audio and a elements to the li element 
                 li.appendChild(au);
                 li.appendChild(link); //add the li element to the ordered list 
-                recordingsList.appendChild(li);
+                recordings.appendChild(li);
             }
 
     </script>
