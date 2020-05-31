@@ -23,7 +23,7 @@ def listen():
     data16 = np.frombuffer(data, dtype=np.int16)
 
     text = model.getText(data16)
-    print(text)
+    print("decipheredtext,text)
     # response = jsonify({"tags": tags,"topic":topic,"lang":mylang})
     return(text)
 
