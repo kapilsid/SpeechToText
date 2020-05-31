@@ -5,7 +5,7 @@ import logging
 from app import app,logger
 import numpy as np
 import base64
-
+import librosa 
 from flask import render_template
 import soundfile as sf
 import io
@@ -18,8 +18,8 @@ def listen():
     logger.info("listen --- ")
     
     data = request.data
-    data = base64.b64decode(data)
     wav, samplerate = sf.read(io.BytesIO(data))
+    wav = librosa.core.resample(wav,16000)
     print(wav)
     print(samplerate)
     model = SpeechModel()
