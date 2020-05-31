@@ -14,18 +14,15 @@ def listen():
     """Entry point of this service. 
     """
     logger.info("listen --- ")
-    content = request.get_json()
     
-    print(content)
-
     data = request.data
-
+     logger.info(data)
     model = SpeechModel()
 
     data16 = np.frombuffer(data, dtype=np.int16)
 
     text = model.getText(data16)
-
+    print(text)
     # response = jsonify({"tags": tags,"topic":topic,"lang":mylang})
     return(text)
 
