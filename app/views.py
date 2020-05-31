@@ -18,8 +18,8 @@ def listen():
     logger.info("listen --- ")
     
     data = request.data
-    wav, samplerate = sf.read(io.BytesIO(data))
-    wav = librosa.core.resample(wav,16000)
+    wav, sr = sf.read(io.BytesIO(data))
+    wav = librosa.core.resample(wav,sr16000)
     print(wav)
     print(samplerate)
     model = SpeechModel()
