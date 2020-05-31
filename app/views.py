@@ -4,6 +4,7 @@ from app.SpeechModel import SpeechModel
 import logging
 from app import app,logger
 import numpy as np
+import base64
 
 from flask import render_template
 
@@ -16,7 +17,7 @@ def listen():
     logger.info("listen --- ")
     
     data = request.data
-    data base64.b64decode(data)
+    data = base64.b64decode(data)
     print(data)
     model = SpeechModel()
     data16 = np.frombuffer(data, dtype=np.int16)

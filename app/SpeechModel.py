@@ -1,7 +1,7 @@
 import os
 import deepspeech
 
-DEEPSPEECH_MODEL_DIR = 'deepspeech-0.6.0-models'
+DEEPSPEECH_MODEL_DIR = '/deepspeech-0.6.0-models'
 MODEL_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'output_graph.pbmm')
 BEAM_WIDTH = 500
 LM_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'lm.binary')
