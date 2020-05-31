@@ -16,9 +16,9 @@ def listen():
     logger.info("listen --- ")
     
     data = request.data
-    logger.info(data)
+    data base64.b64decode(data)
+    print(data)
     model = SpeechModel()
-
     data16 = np.frombuffer(data, dtype=np.int16)
 
     text = model.getText(data16)
