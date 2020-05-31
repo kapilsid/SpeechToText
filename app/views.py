@@ -16,7 +16,7 @@ def listen():
     logger.info("listen --- ")
     
     data = request.data
-     logger.info(data)
+    logger.info(data)
     model = SpeechModel()
 
     data16 = np.frombuffer(data, dtype=np.int16)
