@@ -23,7 +23,7 @@
         <br/>
         <br/>
         <br/>
-        <textarea row="5" cols="100">
+        <textarea id="mytext" row="5" cols="100">
 
         </textarea>
         <div id="formats"></div>
@@ -129,7 +129,10 @@
                             url: 'https://3.218.104.126:8090/listen',
                             data: blob,
                             contentType: false, // set accordingly
-                            processData: false
+                            processData: false,  
+                            success:function(data) {
+                                handleData(data); 
+                            }
                         });
                         createDownloadLink(blob,"wav");
                     }
@@ -179,6 +182,10 @@
                 li.appendChild(au);
                 li.appendChild(link); //add the li element to the ordered list 
                 recordings.appendChild(li);
+            }
+
+            function handleData(data) {
+               $("textarea#mytext").val(data);
             }
 
     </script>
