@@ -26,16 +26,16 @@
         <textarea row="5" cols="100">
 
         </textarea>
-        <div id="recording"></div>
         <div id="formats"></div>
+        <ol id="recordings">recordings</ol>
         <div id="log"></div>
 
         <script type="text/javascript">
         
             let started = false;
             let shouldStop = false;
-            let stopped = false;
             // const downloadLink = document.getElementById('download');
+            let stopped = false;
 
             var gumStream; 						//stream from getUserMedia()
             var recorder; 						//WebAudioRecorder object
@@ -47,10 +47,10 @@
             var AudioContext = window.AudioContext || window.webkitAudioContext;
             var audioContext; //new audio context to help us record
             
+            
             const recordButton = document.getElementById('start');
- 
-            var  recordings = document.getElementById('recording');
- 
+            
+            var  recordings = document.getElementById('recordings');
             recordButton.addEventListener('click', function() {
                 if(started) {
                     shouldStop = true;
@@ -178,7 +178,7 @@
                 //add the new audio and a elements to the li element 
                 li.appendChild(au);
                 li.appendChild(link); //add the li element to the ordered list 
-                recordings.appendChild(li);
+                recordingso .appendChild(li);
             }
 
     </script>
