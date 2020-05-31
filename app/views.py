@@ -7,7 +7,8 @@ import numpy as np
 import base64
 
 from flask import render_template
-
+import soundfile as sf
+import io
 
 
 @app.route("/listen",methods=["POST"])
@@ -18,9 +19,11 @@ def listen():
     
     data = request.data
     data = base64.b64decode(data)
-    print(data)
+    wav, samplerate = sf.read(io.BytesIO(data))
+    print(wav)
+    print(samplerate)
     model = SpeechModel()
-    data16 = np.frombuffer(data, dtype=np.int16)
+    data16 = np.frombuffer(wav, dtype=np.int16)
 
     text = model.getText(data16)
     print("decipheredtext",text)
