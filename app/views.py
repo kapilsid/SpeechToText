@@ -9,6 +9,7 @@ import librosa
 from flask import render_template
 import soundfile as sf
 import io
+from run import model
 
 
 @app.route("/listen",methods=["POST"])
@@ -22,7 +23,7 @@ def listen():
     wav = librosa.core.resample(wav,sr,16000)
     print(wav)
     print(sr)
-    model = SpeechModel()
+    #model = SpeechModel()
     data16 = np.frombuffer(wav, dtype=np.int16)
 
     text = model.getText(data16)
