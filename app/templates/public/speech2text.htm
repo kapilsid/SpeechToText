@@ -129,17 +129,55 @@
 
                     recorder.onComplete = function(recorder1, blob) { 
                         __log("Encoding complete");
-                        $.ajax({
-                            type: 'POST',
-                            url: 'https://3.218.104.126:8090/listen',
-                            data: blob,
-                            contentType: false, // set accordingly
-                            processData: false,  
-                            success:function(data) {
-                                handleData(data); 
-                            }
+
+                        var offlineAudioCtx = new OfflineAudioContext({
+                            numberOfChannels: 1,
+                            length: 16000 * buffer.duration,
+                            sampleRate: 16000,
                         });
-                        createDownloadLink(blob,"wav");
+
+                        soundSource = offlineAudioCtx.createBufferSource();
+                        soundSource.buffer = blob;
+
+                        soundSource.connect(offlineAudioCtx.destination);
+                        
+                        soundSource.start();
+
+                        offlineAudioCtx.startRendering().then(function(abuffer) {
+                            
+                            var duration = abuffer.duration,
+                            rate = abuffer.sampleRate,
+                            offset = 0;
+
+                            var blob = bufferToWave(abuffer, offlineAudioCtx.length);
+
+                            $.ajax({
+                                type: 'POST',
+                                url: 'https://3.218.104.126:8090/listen',
+                                data: blob,
+                                contentType: false, // set accordingly
+                                processData: false,  
+                                success:function(data) {
+                                    handleData(data); 
+                                }
+                            });
+                        
+                        }).catch(function(err) {
+                            // Handle error
+                        });
+
+
+                        // $.ajax({
+                        //     type: 'POST',
+                        //     url: 'https://3.218.104.126:8090/listen',
+                        //     data: blob,
+                        //     contentType: false, // set accordingly
+                        //     processData: false,  
+                        //     success:function(data) {
+                        //         handleData(data); 
+                        //     }
+                        // });
+                        //createDownloadLink(blob,"wav");
                     }
 
                     // recorder.setOptions({
@@ -180,13 +218,14 @@
                 //add controls to the "audio" element 
                 au.controls = true;
                 au.src = url; //link the a element to the blob 
-                link.href = url;
-                link.download = new Date().toISOString() + '.' + encoding;
-                link.innerHTML = link.download;
-                //add the new audio and a elements to the li element 
                 li.appendChild(au);
-                li.appendChild(link); //add the li element to the ordered list 
-                recordings.appendChild(li);
+                
+                // link.href = url;
+                // link.download = new Date().toISOString() + '.' + encoding;
+                // link.innerHTML = link.download;
+                // //add the new audio and a elements to the li element 
+                // li.appendChild(link); //add the li element to the ordered list 
+                // recordings.appendChild(li);
             }
 
             function handleData(data) {
