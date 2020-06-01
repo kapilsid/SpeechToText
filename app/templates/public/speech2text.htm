@@ -20,12 +20,17 @@
         <button id="play" class="btn" style="font-size:28px" > 
             <span>Play</span> <i class="fa fa-play" ></i>
         </button>
+        <input type="file" id="audio-file" accept="audio/mpeg, audio/ogg, audio/*" />
+        <button  class="btn" id="compress" class="btn btn-outline-primary">Compress</button>
         <br/>
         <br/>
         <br/>
         <textarea id="mytext" row="5" cols="100">
 
         </textarea>
+
+       
+
         <div id="formats"></div>
         <ol id="recordings">recordings</ol>
         <div id="log"></div>
@@ -189,6 +194,6 @@
             }
 
     </script>
-
+     <script src='compress.js'></script>
     </body>
 </html>

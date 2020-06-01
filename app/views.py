@@ -18,13 +18,13 @@ def listen():
     logger.info("listen --- ")
     
     data = request.data
-    wav, sr = sf.read(io.BytesIO(data))
-    wav = wav.T
-    wav = librosa.core.resample(wav,sr,16000)
-    print(wav)
-    print(sr)
-    #model = SpeechModel()
-    data16 = np.frombuffer(wav, dtype=np.int16)
+    #wav, sr = sf.read(io.BytesIO(data))
+    #wav = wav.T
+    #wav = librosa.core.resample(wav,sr,16000)
+    
+    #print(wav)
+    #print(sr)
+    data16 = np.frombuffer(data, dtype=np.int16)
 
     text = model.getText(data16)
     print("decipheredtext",text)
