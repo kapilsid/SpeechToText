@@ -9,7 +9,7 @@ import librosa
 from flask import render_template
 import soundfile as sf
 import io
-from run import model
+from app import model
 
 
 @app.route("/listen",methods=["POST"])
