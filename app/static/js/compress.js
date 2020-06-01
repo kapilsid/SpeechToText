@@ -104,7 +104,7 @@ compressBtn.addEventListener('click', function() {
 
                 $.ajax({
                     type: 'POST',
-                    url: 'http://3.218.104.126:8090/listen',
+                    url: 'https://3.218.104.126:8090/listen',
                     data: blob,
                     contentType: false, // set accordingly
                     processData: false,  
