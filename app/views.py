@@ -1,6 +1,5 @@
 from flask import request,jsonify
 from datetime import datetime
-from app.SpeechModel import SpeechModel
 import logging
 from app import app,logger
 import numpy as np
@@ -20,6 +19,7 @@ def listen():
     
     data = request.data
     wav, sr = sf.read(io.BytesIO(data))
+    wav = wav.T
     wav = librosa.core.resample(wav,sr,16000)
     print(wav)
     print(sr)
