@@ -135,7 +135,7 @@
                         
                         //var wav = bufferToWave(buffer, 16000 * myDuration);
 
-                        var blob = new Blob([ new DataView(buffer) ], {
+                        var blob = new Blob([buffer], {
                             type: 'audio/wav'
                         });
                         $.ajax({
