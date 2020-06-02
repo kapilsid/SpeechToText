@@ -129,12 +129,11 @@
 
                    
 
-                    recorder.onComplete = function(recorder1,data) { 
+                    recorder.onComplete = function(recorder1,buffer) { 
                         __log("Encoding complete");
-                        audioCtx.decodeAudioData(data).then(function(buffer) {
-                            var offlineAudioCtx = new OfflineAudioContext({
+                        var offlineAudioCtx = new OfflineAudioContext({
                             numberOfChannels: 1,
-                            length: 16000 * buffer.duration,
+                            length: 16000 * recorder1.recordingTime();
                             sampleRate: 16000,
                         });
 
@@ -167,7 +166,7 @@
                         }).catch(function(err) {
                             // Handle error
                         });
-                        });        
+                      
                         
 
 
@@ -206,7 +205,6 @@
                 
                 //tell the recorder to finish the recording (stop recording + encode the recorded audio)
                 recorder.finishRecording();
-
                 __log('Recording stopped');
             }
            
