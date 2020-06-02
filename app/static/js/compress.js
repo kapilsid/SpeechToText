@@ -100,7 +100,16 @@ compressBtn.addEventListener('click', function() {
                 rate = abuffer.sampleRate,
                 offset = 0;
 
-                var blob = bufferToWave(abuffer, offlineAudioCtx.length);
+                var blob2 = bufferToWave(abuffer, offlineAudioCtx.length);
+
+                var blob = new Blob([
+                    JSON.stringify({
+                           rate: 16000,
+                           wav: blob2
+                       })
+                       ], {
+                       type: 'application/json'
+                });
 
                 $.ajax({
                     type: 'POST',
