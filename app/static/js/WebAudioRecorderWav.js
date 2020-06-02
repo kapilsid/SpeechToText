@@ -1,6 +1,6 @@
 importScripts("WavAudioEncoder.min.js");
 
-var sampleRate = 16000,//44100,
+var sampleRate = 44100,
     numChannels = 2,
     options = undefined,
     maxBuffers = undefined,
