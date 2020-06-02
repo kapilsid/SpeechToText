@@ -132,23 +132,40 @@
                     recorder.onComplete = function(recorder1,buffer) { 
                         __log("Encoding complete");
                         var myDuration = (Date.now() - recorder.startTime) * 0.001;
+                        var audioCtx = new AudioContext();
+                        var offlineCtx = new OfflineAudioContext(1,16000*myDuration,16000);
+
+                        source = offlineCtx.createBufferSource();
+
+                        audioCtx.decodeAudioData(buffer).then(function(buffer2) {
                             
-                        var duration = abuffer.duration,
-                        offset = 0;
+                            source.buffer = buffer2;
+                            
+                            source.connect(audioCtx.destination);
+                            
+                            source.start();
+                            
+                            offlineCtx.startRendering().then(function(renderedBuffer) {
+                                var blob = bufferToWave(renderedBuffer, 16000 * myDuration);
 
-                        var blob = bufferToWave(buffer, 16000 * myDuration);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'https://3.218.104.126:8090/listen',
+                                    data: blob,
+                                    contentType: false, // set accordingly
+                                    processData: false,  
+                                    success:function(data) {
+                                        handleData(data); 
+                                    }
+                                });
 
-                        $.ajax({
-                            type: 'POST',
-                            url: 'https://3.218.104.126:8090/listen',
-                            data: blob,
-                            contentType: false, // set accordingly
-                            processData: false,  
-                            success:function(data) {
-                                handleData(data); 
-                            }
-                        });
-                    
+                            }).catch(function(err) {
+                                console.log('Rendering failed: ' + err);
+                                // Note: The promise should reject when startRendering is called a second time on an OfflineAudioContext
+                            });
+                            
+                            
+                        });    
 
 
                         // $.ajax({
