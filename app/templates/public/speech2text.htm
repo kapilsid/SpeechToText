@@ -132,43 +132,23 @@
                     recorder.onComplete = function(recorder1,buffer) { 
                         __log("Encoding complete");
                         var myDuration = (Date.now() - recorder.startTime) * 0.001;
-                        var offlineAudioCtx = new OfflineAudioContext({
-                            numberOfChannels: 1,
-                            length: 16000 * myDuration,
-                            sampleRate: 16000,
-                        });
-
-                        soundSource = offlineAudioCtx.createBufferSource();
-                        soundSource.buffer = buffer;
-
-                        soundSource.connect(offlineAudioCtx.destination);
-                        
-                        soundSource.start();
-
-                        offlineAudioCtx.startRendering().then(function(abuffer) {
                             
-                            var duration = abuffer.duration,
-                            rate = abuffer.sampleRate,
-                            offset = 0;
+                        var duration = abuffer.duration,
+                        offset = 0;
 
-                            var blob = bufferToWave(abuffer, offlineAudioCtx.length);
+                        var blob = bufferToWave(buffer, 16000 * myDuration);
 
-                            $.ajax({
-                                type: 'POST',
-                                url: 'https://3.218.104.126:8090/listen',
-                                data: blob,
-                                contentType: false, // set accordingly
-                                processData: false,  
-                                success:function(data) {
-                                    handleData(data); 
-                                }
-                            });
-                        
-                        }).catch(function(err) {
-                            // Handle error
+                        $.ajax({
+                            type: 'POST',
+                            url: 'https://3.218.104.126:8090/listen',
+                            data: blob,
+                            contentType: false, // set accordingly
+                            processData: false,  
+                            success:function(data) {
+                                handleData(data); 
+                            }
                         });
-                      
-                        
+                    
 
 
                         // $.ajax({
