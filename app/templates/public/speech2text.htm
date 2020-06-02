@@ -127,10 +127,12 @@
                         }
                     });
 
-                    recorder.onComplete = function(recorder1, buffer) { 
-                        __log("Encoding complete");
+                   
 
-                        var offlineAudioCtx = new OfflineAudioContext({
+                    recorder.onComplete = function(recorder1,data) { 
+                        __log("Encoding complete");
+                        audioCtx.decodeAudioData(data).then(function(buffer) {
+                            var offlineAudioCtx = new OfflineAudioContext({
                             numberOfChannels: 1,
                             length: 16000 * buffer.duration,
                             sampleRate: 16000,
@@ -165,6 +167,8 @@
                         }).catch(function(err) {
                             // Handle error
                         });
+                        });        
+                        
 
 
                         // $.ajax({
