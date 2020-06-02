@@ -132,12 +132,10 @@
                     recorder.onComplete = function(recorder1,buffer) { 
                         __log("Encoding complete");
                         var myDuration = (Date.now() - recorder.startTime) * 0.001;
-                        var numChannels = buffer.numberOfChannels
-                        var sampleRate = buffer.sampleRate
- 
+                        
                         //var wav = bufferToWave(buffer, 16000 * myDuration);
 
-                        var blob = new Blob([ new DataView(wav) ], {
+                        var blob = new Blob([ new DataView(buffer) ], {
                             type: 'audio/wav'
                         });
                         $.ajax({
