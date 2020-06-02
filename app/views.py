@@ -10,7 +10,7 @@ import soundfile as sf
 import io
 from app import model
 import audioop
-
+import json
 
 @app.route("/listen",methods=["POST"])
 def listen():
@@ -19,15 +19,21 @@ def listen():
     logger.info("listen --- ")
     
     data = request.data
+    y = json.loads(data)
+    data = y["wav"]
+    sr = y["rate"]
+    print(sr)
     #wav, sr = sf.read(io.BytesIO(data))
     #wav = wav.T
     #wav = librosa.core.resample(wav,sr,16000)
-    try:
-        converted = audioop.ratecv(data, 2, 2, 44100, 16000, None)
-        data = audioop.tomono(converted[0], 2, 1, 0)
-    except:
-        print('Failed to downsample wav')
+    if(sr != 16000):
+        try:
+            converted = audioop.ratecv(data, 2, 2, sr, 16000, None)
+            data = audioop.tomono(converted[0], 2, 1, 0)
+        except:
+            print('Failed to downsample wav')
         
+
     #print(wav)
     #print(sr)
     data16 = np.frombuffer(data, dtype=np.int16)

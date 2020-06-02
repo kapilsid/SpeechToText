@@ -135,9 +135,18 @@
                         
                         //var wav = bufferToWave(buffer, 16000 * myDuration);
 
-                        var blob = new Blob([buffer], {
-                            type: 'audio/wav'
+                        // var blob = new Blob([buffer], {
+                        //     type: 'audio/wav'
+                        // });
+                         var blob = new Blob([
+                         JSON.stringify({
+                                rate: 16000,
+                                wav: buffer
+                            })
+                            ], {
+                            type: 'application/json'
                         });
+        
                         $.ajax({
                             type: 'POST',
                             url: 'https://3.218.104.126:8090/listen',
