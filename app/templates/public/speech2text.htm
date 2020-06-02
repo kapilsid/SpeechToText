@@ -51,7 +51,7 @@
             // shim for AudioContext when it's not avb. 
             var AudioContext = window.AudioContext || window.webkitAudioContext;
             var audioContext; //new audio context to help us record
-            
+            var recDuration = 0;
             
             const recordButton = document.getElementById('start');
             
@@ -131,9 +131,10 @@
 
                     recorder.onComplete = function(recorder1,buffer) { 
                         __log("Encoding complete");
+                        var myDuration = (Date.now() - recorder.startTime) * 0.001;
                         var offlineAudioCtx = new OfflineAudioContext({
                             numberOfChannels: 1,
-                            length: 16000 * recorder1.recordingTime();
+                            length: 16000 * myDuration,
                             sampleRate: 16000,
                         });
 
@@ -204,6 +205,7 @@
                 console.log("stopRecording() called");
                 
                 //tell the recorder to finish the recording (stop recording + encode the recorded audio)
+                recDuration = recorder.recordingTime();
                 recorder.finishRecording();
                 __log('Recording stopped');
             }
