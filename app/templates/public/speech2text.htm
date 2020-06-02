@@ -127,7 +127,7 @@
                         }
                     });
 
-                    recorder.onComplete = function(recorder1, blob) { 
+                    recorder.onComplete = function(recorder1, buffer) { 
                         __log("Encoding complete");
 
                         var offlineAudioCtx = new OfflineAudioContext({
@@ -137,7 +137,7 @@
                         });
 
                         soundSource = offlineAudioCtx.createBufferSource();
-                        soundSource.buffer = blob;
+                        soundSource.buffer = buffer;
 
                         soundSource.connect(offlineAudioCtx.destination);
                         
