@@ -89,9 +89,6 @@ compressBtn.addEventListener('click', function() {
             // soundSource.connect(compressor);
             //compressor.connect(offlineAudioCtx.destination);
 
-            // Connect nodes to destination
-            //soundSource.connect(compressor);
-            //compressor.connect(offlineAudioCtx.destination);
 
             soundSource.start();
             offlineAudioCtx.startRendering().then(function(abuffer) {

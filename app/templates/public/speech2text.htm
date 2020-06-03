@@ -132,9 +132,9 @@
 
                     recorder.onComplete = function(recorder1,buffer) { 
                         __log("Encoding complete");
-                        var myDuration = (Date.now() - recorder.startTime) * 0.001;
+                        //var myDuration = (Date.now() - recorder.startTime) * 0.001;
                         
-                        newbuffer = downsampleBuffer(buffer,44100,16000);
+                        var newbuffer = downsampleBuffer(buffer,44100,16000);
 
                         var wav = new Blob([newbuffer], {
                             type: 'audio/wav'
@@ -151,17 +151,6 @@
                             }
                         });
 
-
-                        // $.ajax({
-                        //     type: 'POST',
-                        //     url: 'https://3.218.104.126:8090/listen',
-                        //     data: blob,
-                        //     contentType: false, // set accordingly
-                        //     processData: false,  
-                        //     success:function(data) {
-                        //         handleData(data); 
-                        //     }
-                        // });
                         //createDownloadLink(blob,"wav");
                     }
 
