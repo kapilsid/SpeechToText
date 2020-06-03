@@ -57,10 +57,7 @@ function downSampleAndSend(buffer){
                 handleData(data); 
             }
         });
-        document.getElementById("audio-file").value = "";
-        recordedBuffer = undefined;
-        $('#play > i').css({ "color": 'black'});
-        $('#play > span').css({ "color": 'black'});
+      
     }).catch(function(err) {
         // Handle error
     });
@@ -156,10 +153,6 @@ function processRecording(buffer){
                         handleData(data); 
                     }
                 });
-                document.getElementById("audio-file").value = "";
-                recordedBuffer = undefined;
-                $('#play > i').css({ "color": 'black'});
-                $('#play > span').css({ "color": 'black'});
                 //createDownloadLink(blob,"wav");
             
             }).catch(function(err) {

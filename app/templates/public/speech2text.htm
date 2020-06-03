@@ -78,6 +78,8 @@
 
              $("#audio-file").change(function(){
                 if(document.getElementById("audio-file").value != ""){
+                    recordedBuffer = undefined;
+              
                     $('#play > i').css({ "color": 'green'});
                     $('#play > span').css({ "color": 'green'});
                     
@@ -89,7 +91,10 @@
 
             function startRecording() {
                 console.log("startRecording() called");
-
+                document.getElementById("audio-file").value = "";
+                $('#play > i').css({ "color": 'black'});
+                $('#play > span').css({ "color": 'black'});
+              
                 /*
                     Simple constraints object, for more advanced features see
                     https://addpipe.com/blog/audio-constraints-getusermedia/
