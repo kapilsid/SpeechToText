@@ -7,9 +7,7 @@ playBtn.addEventListener('click', function() {
     var audioContext; //new audio context to help us record
     audioCtx = new AudioContext();
    
-    if(fileInput.files[0] == undefined) {
-        return false;
-    }
+    
     var reader1 = new FileReader();
 	reader1.onload = function(ev) {
         audioCtx.decodeAudioData(ev.target.result).then(function(buffer) {
@@ -35,21 +33,14 @@ playBtn.addEventListener('click', function() {
             // soundSource.start(0);
             // var blob = new Blob([buffer]);// , {type: "audio/wav"})
 
-            // $.ajax({
-            //     type: 'POST',
-            //     url: 'https://3.218.104.126:8090/listen',
-            //     data: blob,
-            //     contentType: false, // set accordingly
-            //     processData: false,  
-            //     success:function(data) {
-            //         handleData(data); 
-            //     }
-            // });
+           
         });
     };
-    
-    reader1.readAsArrayBuffer(fileInput.files[0]);
-        
+    if(fileInput.files[0] == undefined) {
+        reader1.readAsArrayBuffer(recordedBuffer);
+    }else{
+        reader1.readAsArrayBuffer(fileInput.files[0]);
+    }    
 },false);
 
 compressBtn.addEventListener('click', function() {

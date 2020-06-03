@@ -55,6 +55,8 @@
             var recDuration = 0;
 
             const recordButton = document.getElementById('start');
+           
+            const recordButton = document.getElementById('start');
             
             const fileBtn = document.getElementById('audio-file');
             
@@ -149,7 +151,10 @@
                         __log("Encoding complete");
                         //var myDuration = (Date.now() - recorder.startTime) * 0.001;
                         recordedBuffer = buffer;
-                        
+                        started = false;
+                        shouldStop = false;
+                        stopped = false;
+
                         // var myArrayBuffer = audioContext.createBuffer(2, 
                         //     audioContext.sampleRate*myDuration, audioContext.sampleRate);  
                         

@@ -153,7 +153,7 @@ function processRecording(buffer){
                         handleData(data); 
                     }
                 });
-                createDownloadLink(blob,"wav");
+                //createDownloadLink(blob,"wav");
             
             }).catch(function(err) {
                 // Handle error
