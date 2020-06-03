@@ -140,23 +140,56 @@
                         fileReader.onloadend = () => {
                             arrayBuffer = fileReader.result;
                             audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
-                                var newbuffer = downsampleBuffer(audioBuffer,audioBuffer.sampleRate,16000);
-
-                                var wav = new Blob([newbuffer], {
-                                    type: 'audio/wav'
+                               
+                                var offlineAudioCtx = new OfflineAudioContext({
+                                    numberOfChannels: 1,
+                                    length: 16000 * buffer.duration,
+                                    sampleRate: 16000,
                                 });
 
-                                $.ajax({
-                                    type: 'POST',
-                                    url: 'https://3.218.104.126:8090/listen',
-                                    data: wav,
-                                    contentType: false, // set accordingly
-                                    processData: false,  
-                                    success:function(data) {
-                                        handleData(data); 
-                                    }
+                                // Audio Buffer Source
+                                soundSource = offlineAudioCtx.createBufferSource();
+                                soundSource.buffer = buffer;
+
+                                soundSource.connect(offlineAudioCtx.destination);
+
+                                soundSource.start();
+                                offlineAudioCtx.startRendering().then(function(abuffer) {
+                                    
+                                   
+                                    var blob = bufferToWave(abuffer, offlineAudioCtx.length);
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: 'https://3.218.104.126:8090/listen',
+                                        data: blob,
+                                        contentType: false, // set accordingly
+                                        processData: false,  
+                                        success:function(data) {
+                                            handleData(data); 
+                                        }
+                                    });
+                                    createDownloadLink(wav,"wav");
+                                
+                                }).catch(function(err) {
+                                    // Handle error
                                 });
-                                createDownloadLink(wav,"wav");
+                                
+                                // var wav = new Blob([newbuffer], {
+                                //     type: 'audio/wav'
+                                // });
+
+                                // $.ajax({
+                                //     type: 'POST',
+                                //     url: 'https://3.218.104.126:8090/listen',
+                                //     data: wav,
+                                //     contentType: false, // set accordingly
+                                //     processData: false,  
+                                //     success:function(data) {
+                                //         handleData(data); 
+                                //     }
+                                // });
+                                
 
                             })
                         }

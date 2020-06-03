@@ -10,6 +10,8 @@ import soundfile as sf
 import io
 from app import model
 
+import audioop
+
 
 
 @app.route("/listen",methods=["POST"])
@@ -21,6 +23,7 @@ def listen():
     data = request.data
     #wav, sr = sf.read(io.BytesIO(data))
     #wav = wav.T
+    
     #wav = librosa.core.resample(wav,sr,16000)
     
     #print(wav)
