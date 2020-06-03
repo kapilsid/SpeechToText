@@ -54,7 +54,7 @@ playBtn.addEventListener('click', function() {
 
 compressBtn.addEventListener('click', function() {
 
-    if(fileInput.files[0] == undefined){
+    if(fileInput.files[0] != undefined){
         var AudioContext = window.AudioContext || window.webkitAudioContext;
         var audioContext; //new audio context to help us record
         audioCtx = new AudioContext();

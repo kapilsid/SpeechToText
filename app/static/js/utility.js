@@ -119,7 +119,7 @@ function bufferToWave(abuffer, len) {
     }
   }
 
-function processRecording(){
+function processRecording(buffer){
     let fileReader = new FileReader();
                      
     fileReader.onloadend = () => {
