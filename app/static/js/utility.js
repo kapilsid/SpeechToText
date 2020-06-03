@@ -57,6 +57,8 @@ function downSampleAndSend(buffer){
                 handleData(data); 
             }
         });
+        document.getElementById("audio-file").value = "";
+        recordedBuffer = undefined;
     
     }).catch(function(err) {
         // Handle error
