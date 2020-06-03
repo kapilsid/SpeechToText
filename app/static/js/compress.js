@@ -96,20 +96,9 @@ compressBtn.addEventListener('click', function() {
             soundSource.start();
             offlineAudioCtx.startRendering().then(function(abuffer) {
                 
-                var duration = abuffer.duration,
-                rate = abuffer.sampleRate,
                 offset = 0;
 
-                var blob2 = bufferToWave(abuffer, offlineAudioCtx.length);
-
-                var blob = new Blob([
-                    JSON.stringify({
-                           rate: 16000,
-                           wav: blob2
-                       })
-                       ], {
-                       type: 'application/json'
-                });
+                var blob = bufferToWave(abuffer, offlineAudioCtx.length);
 
                 $.ajax({
                     type: 'POST',
