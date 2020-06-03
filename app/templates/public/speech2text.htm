@@ -15,22 +15,22 @@
         <h1> Speech To Text</h1>
         <br/>
         <!-- <a id="download">Download</a> -->
+        <input type="file" id="audio-file" accept="audio/mpeg, audio/ogg, audio/*" />
         <button id="start" class="btn" style="font-size:28px" > 
-           <span>Rec</span> <i class="fa fa-microphone" ></i>
+            <span>Rec</span> <i class="fa fa-microphone" ></i>
         </button>
         <button id="play" class="btn" style="font-size:28px" > 
             <span>Play</span> <i class="fa fa-play" ></i>
         </button>
-        <input type="file" id="audio-file" accept="audio/mpeg, audio/ogg, audio/*" />
-        <button  class="btn" id="compress" class="btn btn-outline-primary">Compress</button>
+        <button  class="btn" id="compress" style="font-size:28px">
+            <span>Process</span> <i class="fa fa-fighter-jet" ></i>
+        </button>
         <br/>
         <br/>
         <br/>
         <textarea id="mytext" row="5" cols="100">
 
         </textarea>
-
-       
 
         <div id="formats"></div>
         <ol id="recordings">recordings</ol>
@@ -53,10 +53,15 @@
             var AudioContext = window.AudioContext || window.webkitAudioContext;
             var audioContext; //new audio context to help us record
             var recDuration = 0;
-            
+
             const recordButton = document.getElementById('start');
             
+            const fileBtn = document.getElementById('audio-file');
+            
             var  recordings = document.getElementById('recordings');
+
+            var recordedBuffer;
+
             recordButton.addEventListener('click', function() {
                 if(started) {
                     shouldStop = true;
@@ -71,7 +76,17 @@
                 }
             });
 
-            
+             $("#audio-file").change(function(){
+                if(document.getElementById("audio-file").value != ""){
+                    $('#play > i').css({ "color": 'green'});
+                    $('#play > span').css({ "color": 'green'});
+                    
+                }else{
+                    $('#play > i').css({ "color": 'black'});
+                    $('#play > span').css({ "color": 'black'});
+                }
+            });
+
             function startRecording() {
                 console.log("startRecording() called");
 
@@ -133,53 +148,7 @@
                     recorder.onComplete = function(recorder1,buffer) { 
                         __log("Encoding complete");
                         //var myDuration = (Date.now() - recorder.startTime) * 0.001;
-                        let fileReader = new FileReader();
-                        let arrayBuffer;
-                       
-
-                        fileReader.onloadend = () => {
-                            arrayBuffer = fileReader.result;
-                            audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
-                               
-                                var offlineAudioCtx = new OfflineAudioContext({
-                                    numberOfChannels: 1,
-                                    length: 16000 * audioBuffer.duration,
-                                    sampleRate: 16000,
-                                });
-
-                                // Audio Buffer Source
-                                soundSource = offlineAudioCtx.createBufferSource();
-                                soundSource.buffer = audioBuffer;
-
-                                soundSource.connect(offlineAudioCtx.destination);
-
-                                soundSource.start();
-                                offlineAudioCtx.startRendering().then(function(abuffer) {
-                                    
-                                   
-                                    var blob = bufferToWave(abuffer, offlineAudioCtx.length);
-
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: 'https://3.218.104.126:8090/listen',
-                                        data: blob,
-                                        contentType: false, // set accordingly
-                                        processData: false,  
-                                        success:function(data) {
-                                            handleData(data); 
-                                        }
-                                    });
-                                    createDownloadLink(blob,"wav");
-                                
-                                }).catch(function(err) {
-                                    // Handle error
-                                });
-                                
-                                
-                            })
-                        }
-
-                        fileReader.readAsArrayBuffer(buffer);
+                        recordedBuffer = buffer;
                         
                         // var myArrayBuffer = audioContext.createBuffer(2, 
                         //     audioContext.sampleRate*myDuration, audioContext.sampleRate);  

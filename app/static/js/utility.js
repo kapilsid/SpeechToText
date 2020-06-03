@@ -119,4 +119,50 @@ function bufferToWave(abuffer, len) {
     }
   }
 
+function processRecording(){
+    let fileReader = new FileReader();
+                     
+    fileReader.onloadend = () => {
+        arrayBuffer = fileReader.result;
+        audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
+            
+            var offlineAudioCtx = new OfflineAudioContext({
+                numberOfChannels: 1,
+                length: 16000 * audioBuffer.duration,
+                sampleRate: 16000,
+            });
 
+            // Audio Buffer Source
+            soundSource = offlineAudioCtx.createBufferSource();
+            soundSource.buffer = audioBuffer;
+
+            soundSource.connect(offlineAudioCtx.destination);
+
+            soundSource.start();
+            offlineAudioCtx.startRendering().then(function(abuffer) {
+                
+                var blob = bufferToWave(abuffer, offlineAudioCtx.length);
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://3.218.104.126:8090/listen',
+                    data: blob,
+                    contentType: false, // set accordingly
+                    processData: false,  
+                    success:function(data) {
+                        handleData(data); 
+                    }
+                });
+                createDownloadLink(blob,"wav");
+            
+            }).catch(function(err) {
+                // Handle error
+            });
+            
+            
+        })
+    }
+
+    fileReader.readAsArrayBuffer(buffer);
+                        
+}
