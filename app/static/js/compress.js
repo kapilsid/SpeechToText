@@ -89,10 +89,11 @@ compressBtn.addEventListener('click', function() {
             // soundSource.connect(compressor);
             //compressor.connect(offlineAudioCtx.destination);
 
-
             soundSource.start();
             offlineAudioCtx.startRendering().then(function(abuffer) {
                 
+                var duration = abuffer.duration,
+                rate = abuffer.sampleRate,
                 offset = 0;
 
                 var blob = bufferToWave(abuffer, offlineAudioCtx.length);
