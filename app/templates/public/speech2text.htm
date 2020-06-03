@@ -135,11 +135,12 @@
                         //var myDuration = (Date.now() - recorder.startTime) * 0.001;
                         let fileReader = new FileReader();
                         let arrayBuffer;
+                       
 
                         fileReader.onloadend = () => {
                             arrayBuffer = fileReader.result;
                             audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
-                                var newbuffer = downsampleBuffer(audioBuffer,recorder.context.sampleRate,16000);
+                                var newbuffer = downsampleBuffer(audioBuffer,audioBuffer.sampleRate,16000);
 
                                 var wav = new Blob([newbuffer], {
                                     type: 'audio/wav'
@@ -155,6 +156,7 @@
                                         handleData(data); 
                                     }
                                 });
+                                createDownloadLink(wav,"wav");
 
                             })
                         }
@@ -168,7 +170,7 @@
                         // myArrayBuffer.copyFromChannel(anotherArray,1,0);
 
 
-                        createDownloadLink(wav,"wav");
+                       
                     }
 
                     // recorder.setOptions({
