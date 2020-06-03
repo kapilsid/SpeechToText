@@ -143,13 +143,13 @@
                                
                                 var offlineAudioCtx = new OfflineAudioContext({
                                     numberOfChannels: 1,
-                                    length: 16000 * buffer.duration,
+                                    length: 16000 * audioBuffer.duration,
                                     sampleRate: 16000,
                                 });
 
                                 // Audio Buffer Source
                                 soundSource = offlineAudioCtx.createBufferSource();
-                                soundSource.buffer = buffer;
+                                soundSource.buffer = audioBuffer;
 
                                 soundSource.connect(offlineAudioCtx.destination);
 
@@ -169,7 +169,7 @@
                                             handleData(data); 
                                         }
                                     });
-                                    createDownloadLink(wav,"wav");
+                                    createDownloadLink(blob,"wav");
                                 
                                 }).catch(function(err) {
                                     // Handle error
