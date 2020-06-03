@@ -153,6 +153,8 @@ function processRecording(buffer){
                         handleData(data); 
                     }
                 });
+                document.getElementById("audio-file").value = "";
+                recordedBuffer = undefined;
                 //createDownloadLink(blob,"wav");
             
             }).catch(function(err) {
