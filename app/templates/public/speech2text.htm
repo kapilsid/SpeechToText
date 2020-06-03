@@ -133,18 +133,16 @@
                         __log("Encoding complete");
                         var myDuration = (Date.now() - recorder.startTime) * 0.001;
                         
-                        //var wav = bufferToWave(buffer, 16000 * myDuration);
+                        newbuffer = downsampleBuffer(buffer,44100,16000);
 
-                        var wav = new Blob([buffer], {
+                        var wav = new Blob([newbuffer], {
                             type: 'audio/wav'
                         });
-
-                        let blob = new Blob([wav, 44100], {type: 'text/plain'});
         
                         $.ajax({
                             type: 'POST',
                             url: 'https://3.218.104.126:8090/listen',
-                            data: blob,
+                            data: wav,
                             contentType: false, // set accordingly
                             processData: false,  
                             success:function(data) {
