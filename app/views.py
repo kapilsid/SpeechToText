@@ -19,20 +19,19 @@ def listen():
     logger.info("listen --- ")
     
     data = request.data
-    y = json.loads(data)
-    data = y["wav"]
-    sr = y["rate"]
+    print(data)
+    wav = data[0]
+    sr = data[1]
     print(sr)
     #wav, sr = sf.read(io.BytesIO(data))
     #wav = wav.T
     #wav = librosa.core.resample(wav,sr,16000)
-    if(sr != 16000):
-        try:
-            converted = audioop.ratecv(data, 2, 2, sr, 16000, None)
-            data = audioop.tomono(converted[0], 2, 1, 0)
-        except:
-            print('Failed to downsample wav')
-        
+    try:
+        converted = audioop.ratecv(data, 2, 2, sr, 16000, None)
+        data = audioop.tomono(converted[0], 2, 1, 0)
+    except:
+        print('Failed to downsample wav')
+    
 
     #print(wav)
     #print(sr)
