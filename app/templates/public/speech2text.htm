@@ -152,7 +152,8 @@
                         started = false;
                         shouldStop = false;
                         stopped = false;
-
+                        $('#play > i').css({ "color": 'green'});
+                         $('#play > span').css({ "color": 'green'});
                         // var myArrayBuffer = audioContext.createBuffer(2, 
                         //     audioContext.sampleRate*myDuration, audioContext.sampleRate);  
                         
@@ -190,7 +191,8 @@
             }
            
             function __log(e, data) {
-                log.innerHTML += "\n" + e + " " + (data || '');
+                //log.innerHTML += "\n" + e + " " + (data || '');
+                console.log(data);
             }
 
             function createDownloadLink(blob, encoding) {
@@ -208,7 +210,7 @@
                 // link.innerHTML = link.download;
                 // //add the new audio and a elements to the li element 
                 // li.appendChild(link); //add the li element to the ordered list 
-                 recordings.appendChild(li);
+                // recordings.appendChild(li);
             }
 
             function handleData(data) {
