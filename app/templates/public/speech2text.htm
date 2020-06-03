@@ -134,7 +134,7 @@
                         __log("Encoding complete");
                         //var myDuration = (Date.now() - recorder.startTime) * 0.001;
                         
-                        var newbuffer = downsampleBuffer(buffer,44100,16000);
+                        var newbuffer = downsampleBuffer(buffer,recorder1.sampleRate,16000);
 
                         var wav = new Blob([newbuffer], {
                             type: 'audio/wav'
@@ -151,7 +151,7 @@
                             }
                         });
 
-                        createDownloadLink(blob,"wav");
+                        createDownloadLink(wav,"wav");
                     }
 
                     // recorder.setOptions({
@@ -199,7 +199,7 @@
                 // link.innerHTML = link.download;
                 // //add the new audio and a elements to the li element 
                 // li.appendChild(link); //add the li element to the ordered list 
-                // recordings.appendChild(li);
+                 recordings.appendChild(li);
             }
 
             function handleData(data) {
