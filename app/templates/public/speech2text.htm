@@ -133,28 +133,38 @@
                     recorder.onComplete = function(recorder1,buffer) { 
                         __log("Encoding complete");
                         //var myDuration = (Date.now() - recorder.startTime) * 0.001;
-                        var myArrayBuffer = audioContext.createBuffer(2, 
-                                    frameCount, audioCtx.sampleRate);  
+                        let fileReader = new FileReader();
+                        let arrayBuffer;
+
+                        fileReader.onloadend = () => {
+                            arrayBuffer = fileReader.result;
+                            var newbuffer = downsampleBuffer(arrayBuffer,recorder.context.sampleRate,16000);
+
+                            var wav = new Blob([newbuffer], {
+                                type: 'audio/wav'
+                            });
+
+                            $.ajax({
+                                type: 'POST',
+                                url: 'https://3.218.104.126:8090/listen',
+                                data: wav,
+                                contentType: false, // set accordingly
+                                processData: false,  
+                                success:function(data) {
+                                    handleData(data); 
+                                }
+                            });
+
+                        }
+
+                        fileReader.readAsArrayBuffer(buffer);
                         
-                        var anotherArray = new Float32Array();
-                        myArrayBuffer.copyFromChannel(anotherArray,1,0);
+                        // var myArrayBuffer = audioContext.createBuffer(2, 
+                        //     audioContext.sampleRate*myDuration, audioContext.sampleRate);  
+                        
+                        // var anotherArray = new Float32Array();
+                        // myArrayBuffer.copyFromChannel(anotherArray,1,0);
 
-                        var newbuffer = downsampleBuffer(myArrayBuffer,recorder.context.sampleRate,16000);
-
-                        var wav = new Blob([newbuffer], {
-                            type: 'audio/wav'
-                        });
-        
-                        $.ajax({
-                            type: 'POST',
-                            url: 'https://3.218.104.126:8090/listen',
-                            data: wav,
-                            contentType: false, // set accordingly
-                            processData: false,  
-                            success:function(data) {
-                                handleData(data); 
-                            }
-                        });
 
                         createDownloadLink(wav,"wav");
                     }
