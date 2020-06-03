@@ -133,8 +133,13 @@
                     recorder.onComplete = function(recorder1,buffer) { 
                         __log("Encoding complete");
                         //var myDuration = (Date.now() - recorder.startTime) * 0.001;
+                        var myArrayBuffer = audioContext.createBuffer(2, 
+                                    frameCount, audioCtx.sampleRate);  
                         
-                        var newbuffer = downsampleBuffer(buffer,recorder1.sampleRate,16000);
+                        var anotherArray = new Float32Array();
+                        myArrayBuffer.copyFromChannel(anotherArray,1,0);
+
+                        var newbuffer = downsampleBuffer(myArrayBuffer,recorder.context.sampleRate,16000);
 
                         var wav = new Blob([newbuffer], {
                             type: 'audio/wav'
@@ -205,6 +210,8 @@
             function handleData(data) {
                $("textarea#mytext").val(data);
             }
+
+            
 
     </script>
      <!-- <script src='compress.js'></script> -->
