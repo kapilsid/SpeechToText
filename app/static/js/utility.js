@@ -49,7 +49,7 @@ function downSampleAndSend(buffer){
 
         $.ajax({
             type: 'POST',
-            url: 'https://3.218.104.126:8090/listen',
+            url: 'https://speech2text.siddbetter.com/listen',
             data: blob,
             contentType: false, // set accordingly
             processData: false,  
