@@ -11,5 +11,8 @@ model = SpeechModel()
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
+gunicorn_error_logger = logging.getLogger('gunicorn.error')
+app.logger.handlers.extend(gunicorn_error_logger.handlers)
+app.logger.setLevel(logging.INFO)
 
 from app import views

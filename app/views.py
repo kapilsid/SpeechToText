@@ -1,6 +1,5 @@
 from flask import request,jsonify
 from datetime import datetime
-import logging
 from app import app,logger
 import numpy as np
 import base64
@@ -31,7 +30,7 @@ def listen():
     data16 = np.frombuffer(data, dtype=np.int16)
 
     text = model.getText(data16)
-    print("decipheredtext",text)
+    logger.info("decipheredtext",text)
     # response = jsonify({"tags": tags,"topic":topic,"lang":mylang})
     return(text)
 
