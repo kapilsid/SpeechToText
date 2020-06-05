@@ -44,21 +44,17 @@ playBtn.addEventListener('click', function() {
 },false);
 
 compressBtn.addEventListener('click', function() {
-
+   
     if(fileInput.files[0] != undefined){
-        var AudioContext = window.AudioContext || window.webkitAudioContext;
-        var audioContext; //new audio context to help us record
-        audioCtx = new AudioContext();
-    
+        processRecording(fileInput.files[0]);
+        // var reader1 = new FileReader();
+        // reader1.onload = function(ev) {
+        //     audioCtx.decodeAudioData(ev.target.result).then(function(buffer) {
+        //         downSampleAndSend(buffer);
+        //     });
+        // };
         
-        var reader1 = new FileReader();
-        reader1.onload = function(ev) {
-            audioCtx.decodeAudioData(ev.target.result).then(function(buffer) {
-                downSampleAndSend(buffer);
-            });
-        };
-        
-        reader1.readAsArrayBuffer(fileInput.files[0]);
+        // reader1.readAsArrayBuffer(fileInput.files[0]);
     }
     else if(recordedBuffer != undefined){
         processRecording(recordedBuffer);

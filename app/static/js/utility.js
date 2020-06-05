@@ -23,7 +23,26 @@
         offsetBuffer = nextOffsetBuffer;
     }
     return result.buffer;
-}  
+} 
+
+function processRecording(buffer){
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    var audioContext; //new audio context to help us record
+    audioCtx = new AudioContext();
+
+    let fileReader = new FileReader();
+                     
+    fileReader.onloadend = () => {
+        arrayBuffer = fileReader.result;
+        audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
+            
+            downSampleAndSend(audioBuffer);
+            
+        })
+    }
+    fileReader.readAsArrayBuffer(buffer);
+}
+
 
 function downSampleAndSend(buffer){
     var offlineAudioCtx = new OfflineAudioContext({
@@ -45,7 +64,16 @@ function downSampleAndSend(buffer){
         rate = abuffer.sampleRate,
         offset = 0;
 
-        var blob = bufferToWave(abuffer, offlineAudioCtx.length);
+        sendToServer(abuffer,offlineAudioCtx.length);
+      
+    }).catch(function(err) {
+        // Handle error
+    });
+
+}
+
+function sendToServer(abuffer,length) {
+    var blob = bufferToWave(abuffer, length);
 
         $.ajax({
             type: 'POST',
@@ -57,11 +85,6 @@ function downSampleAndSend(buffer){
                 handleData(data); 
             }
         });
-      
-    }).catch(function(err) {
-        // Handle error
-    });
-
 }
 
 // Convert an AudioBuffer to a Blob using WAVE representation
@@ -119,50 +142,3 @@ function bufferToWave(abuffer, len) {
     }
   }
 
-function processRecording(buffer){
-    let fileReader = new FileReader();
-                     
-    fileReader.onloadend = () => {
-        arrayBuffer = fileReader.result;
-        audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
-            
-            var offlineAudioCtx = new OfflineAudioContext({
-                numberOfChannels: 1,
-                length: 16000 * audioBuffer.duration,
-                sampleRate: 16000,
-            });
-
-            // Audio Buffer Source
-            soundSource = offlineAudioCtx.createBufferSource();
-            soundSource.buffer = audioBuffer;
-
-            soundSource.connect(offlineAudioCtx.destination);
-
-            soundSource.start();
-            offlineAudioCtx.startRendering().then(function(abuffer) {
-                
-                var blob = bufferToWave(abuffer, offlineAudioCtx.length);
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'https://3.218.104.126:8090/listen',
-                    data: blob,
-                    contentType: false, // set accordingly
-                    processData: false,  
-                    success:function(data) {
-                        handleData(data); 
-                    }
-                });
-                //createDownloadLink(blob,"wav");
-            
-            }).catch(function(err) {
-                // Handle error
-            });
-            
-            
-        })
-    }
-
-    fileReader.readAsArrayBuffer(buffer);
-                        
-}
